@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/zxing_transparent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:strokeColor="@color/zxing_transparent"
+        app:cardCornerRadius="20dp"
+        android:layout_margin="0dp"
+        app:cardElevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="15dp"
+            android:background="@drawable/card_background_decorate">
+
+            <TextView
+                android:id="@+id/tvDeviceName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Redmi Note 9 Pro"
+                android:fontFamily="@font/roboto"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@+id/tvDeviceNameTitle"
+                app:layout_constraintTop_toBottomOf="@+id/tvDeviceNameTitle" />
+
+            <TextView
+                android:id="@+id/tvDeviceNameTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Device Name"
+                android:fontFamily="@font/roboto_medium"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvNetworkTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Network"
+                android:textSize="16sp"
+                android:textColor="#000000"
+                android:fontFamily="@font/roboto_medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvDeviceNameTitle" />
+
+            <View
+                android:id="@+id/view8"
+                android:layout_width="0dp"
+                android:layout_height="1.3dp"
+                android:background="#66EDEDED"
+                app:layout_constraintBottom_toTopOf="@+id/tvModelTitle"
+                app:layout_constraintEnd_toEndOf="@+id/tvNetwork"
+                app:layout_constraintStart_toStartOf="@+id/tvDeviceName"
+                app:layout_constraintTop_toBottomOf="@+id/tvDeviceName"
+                app:layout_constraintVertical_bias="0.52" />
+
+            <View
+                android:id="@+id/view9"
+                android:layout_width="0dp"
+                android:layout_height="1.3dp"
+                android:background="#66EDEDED"
+                app:layout_constraintBottom_toTopOf="@+id/tvStorageTitle"
+                app:layout_constraintEnd_toEndOf="@+id/tvManufacturer"
+                app:layout_constraintStart_toStartOf="@+id/view8"
+                app:layout_constraintTop_toBottomOf="@+id/tvModel" />
+
+            <TextView
+                android:id="@+id/tvNetwork"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="452111"
+                android:fontFamily="@font/roboto"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@+id/tvNetworkTitle"
+                app:layout_constraintTop_toBottomOf="@+id/tvNetworkTitle" />
+
+            <TextView
+                android:id="@+id/tvModelTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:gravity="right"
+                android:text="Model"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:fontFamily="@font/roboto_medium"
+                app:layout_constraintStart_toStartOf="@+id/tvDeviceName"
+                app:layout_constraintTop_toBottomOf="@+id/tvDeviceName" />
+
+            <TextView
+                android:id="@+id/tvModel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="YRF5522214"
+                android:textSize="14sp"
+                android:fontFamily="@font/roboto"
+                app:layout_constraintStart_toStartOf="@+id/tvModelTitle"
+                app:layout_constraintTop_toBottomOf="@+id/tvModelTitle" />
+
+            <TextView
+                android:id="@+id/tvManufacturerTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:text="Manufacturer"
+                android:textSize="16sp"
+                android:textColor="#000000"
+                android:fontFamily="@font/roboto_medium"
+                app:layout_constraintEnd_toEndOf="@+id/tvNetwork"
+                app:layout_constraintTop_toTopOf="@+id/tvModelTitle" />
+
+            <TextView
+                android:id="@+id/tvManufacturer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:text="Door Lock"
+                android:fontFamily="@font/roboto"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@+id/tvManufacturerTitle"
+                app:layout_constraintTop_toBottomOf="@+id/tvManufacturerTitle" />
+
+            <TextView
+                android:id="@+id/tvStorageTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:gravity="start"
+                android:text="Device storage"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:fontFamily="@font/roboto_medium"
+                app:layout_constraintStart_toStartOf="@+id/tvModel"
+                app:layout_constraintTop_toBottomOf="@+id/tvModel" />
+
+            <TextView
+                android:id="@+id/tvStorage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:text="Reading Refused by Consumer"
+                android:fontFamily="@font/roboto"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tvStorageTitle"
+                app:layout_constraintTop_toBottomOf="@+id/tvStorageTitle" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSurface"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/topAppBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#C5DFF8"
+        android:paddingEnd="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="@string/app_catalog"
+            app:menu="@menu/app_catalog_menu"
+            android:minHeight="?attr/actionBarSize" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+<!--    <com.google.android.material.button.MaterialButtonToggleGroup-->
+<!--        android:id="@+id/radioGroup"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        app:checkedButton="@id/allApps"-->
+<!--        app:selectionRequired="true"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/topAppBarLayout"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:singleSelection="true">-->
+
+<!--        <Button-->
+<!--            android:id="@+id/allApps"-->
+<!--            style="?attr/materialButtonOutlinedStyle"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:fontFamily="@font/roboto"-->
+<!--            android:text="@string/all_apps"-->
+<!--            android:textColor="#000"-->
+<!--            android:textSize="15sp" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/installed"-->
+<!--            style="?attr/materialButtonOutlinedStyle"-->
+<!--            android:layout_width="120dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:fontFamily="@font/roboto"-->
+<!--            android:text="@string/installed"-->
+<!--            android:textColor="#000"-->
+<!--            android:textSize="15sp" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/update"-->
+<!--            style="?attr/materialButtonOutlinedStyle"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:fontFamily="@font/roboto"-->
+<!--            android:text="@string/Update"-->
+<!--            android:textColor="#000"-->
+<!--            android:textSize="15sp" />-->
+
+<!--    </com.google.android.material.button.MaterialButtonToggleGroup>-->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#C5DFF8"
+        app:tabMode="fixed"
+        app:layout_constraintTop_toBottomOf="@id/topAppBarLayout"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@id/tabLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

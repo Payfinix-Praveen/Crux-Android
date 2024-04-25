@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_main"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.sujanix.cruxmdm.presentation.view.fragment.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_deviceDetailFragment"
+            app:destination="@id/deviceDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_notificationActivityFragment"
+            app:destination="@id/notificationActivityFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/appStoreFragment"
+        android:name="com.sujanix.cruxmdm.presentation.view.fragment.AppStoreFragment"
+        android:label="AppStoreFragment"
+        tools:layout="@layout/fragment_app_store"/>
+    <fragment
+        android:id="@+id/contentFragment"
+        android:name="com.sujanix.cruxmdm.presentation.view.fragment.ContentFragment"
+        android:label="ContentFragment"
+        tools:layout="@layout/fragment_content"/>
+    <fragment
+        android:id="@+id/notificationActivityFragment"
+        android:name="com.sujanix.cruxmdm.presentation.view.fragment.NotificationActivityFragment"
+        android:label="ContentFragment"
+        tools:layout="@layout/fragment_notification_activity"/>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.sujanix.cruxmdm.presentation.view.fragment.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_contentFragment"
+            app:destination="@id/contentFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_appStoreFragment"
+            app:destination="@id/appStoreFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_deviceDetailFragment"
+            app:destination="@id/deviceDetailFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_notificationActivityFragment"
+            app:destination="@id/notificationActivityFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/deviceDetailFragment"
+        android:name="com.sujanix.cruxmdm.presentation.view.fragment.DeviceDetailFragment"
+        android:label="fragment_device_detail"
+        tools:layout="@layout/fragment_device_detail" />
+</navigation>

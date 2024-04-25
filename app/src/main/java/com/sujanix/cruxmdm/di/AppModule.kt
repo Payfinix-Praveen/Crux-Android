@@ -1,13 +1,21 @@
 package com.sujanix.cruxmdm.di
 
 import android.app.Application
+import android.content.Context
 import androidx.room.Room
 import com.google.gson.GsonBuilder
+import com.sujanix.cruxmdm.data.data_source.local.ApplicationDao
+import com.sujanix.cruxmdm.data.data_source.local.CruxDao
 import com.sujanix.cruxmdm.data.data_source.local.CruxDatabase
 import com.sujanix.cruxmdm.data.data_source.remote.CruxApi
+import com.sujanix.cruxmdm.data.repository.CruxRepository
+import com.sujanix.cruxmdm.socket.SocketClient
+import com.sujanix.cruxmdm.socket.SocketClientImp
+import dagger.Component
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -47,15 +55,31 @@ object AppModule {
             .create()
     }
 
-    @Provides
     @Singleton
+    @Provides
     fun providesCruxDatabase(
-        appContext: Application
+        @ApplicationContext appContext: Context
     ): CruxDatabase {
         return Room.databaseBuilder(
-            appContext,
+            appContext.applicationContext,
             CruxDatabase::class.java,
             CruxDatabase.DATABASE_NAME
         ).build()
+    }
+
+    @Provides
+    @Singleton
+    fun providesCruxDao(
+        db: CruxDatabase
+    ): CruxDao {
+        return db.cruxDao
+    }
+
+    @Provides
+    @Singleton
+    fun providesApplicationDao(
+        db: CruxDatabase
+    ): ApplicationDao {
+        return db.applicationDao
     }
 }
