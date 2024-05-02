@@ -1,17 +1,12 @@
 package com.sujanix.cruxmdm.di
 
-import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import com.google.gson.GsonBuilder
-import com.sujanix.cruxmdm.data.data_source.local.ApplicationDao
-import com.sujanix.cruxmdm.data.data_source.local.CruxDao
-import com.sujanix.cruxmdm.data.data_source.local.CruxDatabase
-import com.sujanix.cruxmdm.data.data_source.remote.CruxApi
-import com.sujanix.cruxmdm.data.repository.CruxRepository
-import com.sujanix.cruxmdm.socket.SocketClient
-import com.sujanix.cruxmdm.socket.SocketClientImp
-import dagger.Component
+import com.sujanix.cruxmdm.feature.app_catalog.data.data_source.local.ApplicationDao
+import com.sujanix.cruxmdm.feature.common.data.data_source.local.CruxDao
+import com.sujanix.cruxmdm.feature.common.data.data_source.local.CruxDatabase
+import com.sujanix.cruxmdm.feature.common.data.data_source.remote.CruxApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

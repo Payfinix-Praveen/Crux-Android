@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import com.sujanix.cruxmdm.socket.UnSafeOkHttpClient.getUnsafeOkHttpClient
-import com.sujanix.cruxmdm.util.UserPreferences
+import com.sujanix.cruxmdm.feature.common.utlis.UserPreferences
 import io.socket.client.IO
 import io.socket.client.Socket
 import kotlinx.coroutines.CoroutineScope
@@ -35,6 +35,7 @@ class SocketClientImp(
                     it?.let { deviceId ->
                         val OkHttpClientContxt = getUnsafeOkHttpClient()
                         val options = IO.Options().apply {
+//                            auth = mapOf(Pair("clientID", "1001") )
                             extraHeaders = mapOf(
                                 Pair("clientType", listOf("MDM_ANDROID")),
                                 Pair("deviceID", listOf(deviceId))
@@ -43,9 +44,9 @@ class SocketClientImp(
                             webSocketFactory = OkHttpClientContxt
                             reconnection = true
                         }
-                        socketClient = IO.socket(URI("https://payzark.com"), options)
+                        socketClient = IO.socket(URI("http://192.168.0.183:8082"), options)
                         socketClient.on(Socket.EVENT_CONNECT_ERROR) { error ->
-                            Log.d("WEBSOCKET", "startSession: ${error[0]}")
+                            Log.d("WEBSOCKET", "EVENT_CONNECT_ERROR: ${error[0]}")
                         }
                         establishConnection()
                         receiveMessageFromSocket()

@@ -7,7 +7,7 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.sujanix.cruxmdm.service.LocationService
-import com.sujanix.cruxmdm.util.Constant
+import com.sujanix.cruxmdm.feature.common.utlis.Constant
 
 class CruxReceiver : BroadcastReceiver() {
 

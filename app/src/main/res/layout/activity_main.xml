@@ -7,7 +7,7 @@
     android:background="#EFEFEF"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".presentation.view.activity.EnrollActivity">
+    tools:context=".feature.enrollment.presentation.view.EnrollActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/topAppBarLayout"

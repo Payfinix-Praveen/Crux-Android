@@ -6,11 +6,11 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
-import com.sujanix.cruxmdm.util.Constant.APP_THEME
-import com.sujanix.cruxmdm.util.Constant.DARK
-import com.sujanix.cruxmdm.util.Constant.LIGHT
-import com.sujanix.cruxmdm.util.Constant.PREFERENCE_NAME
-import com.sujanix.cruxmdm.util.Constant.SYSTEM_DEFAULT
+import com.sujanix.cruxmdm.feature.common.utlis.Constant.APP_THEME
+import com.sujanix.cruxmdm.feature.common.utlis.Constant.DARK
+import com.sujanix.cruxmdm.feature.common.utlis.Constant.LIGHT
+import com.sujanix.cruxmdm.feature.common.utlis.Constant.PREFERENCE_NAME
+import com.sujanix.cruxmdm.feature.common.utlis.Constant.SYSTEM_DEFAULT
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 

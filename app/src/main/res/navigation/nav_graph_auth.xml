@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.sujanix.cruxmdm.presentation.view.fragment.LoginFragment"
+        android:name="com.sujanix.cruxmdm.feature.auth.presentation.view.fragment.LoginFragment"
         android:label="LoginFragment" />
 <!--        <action-->
 <!--            android:id="@+id/action_loginFragment_to_registerFragment"-->
@@ -14,6 +14,6 @@
 <!--    </fragment>-->
 <!--    <fragment-->
 <!--        android:id="@+id/registerFragment"-->
-<!--        android:name="com.sujanix.cruxmdm.presentation.view.fragment.RegisterFragment"-->
+<!--        android:name="com.sujanix.cruxmdm.feature.auth.presentation.view.fragment.RegisterFragment"-->
 <!--        android:label="RegisterFragment" />-->
 </navigation>

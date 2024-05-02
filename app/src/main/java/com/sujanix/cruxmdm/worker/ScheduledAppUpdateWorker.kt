@@ -10,25 +10,24 @@ import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import com.sujanix.cruxmdm.data.model.Application.Companion.toApplication
-import com.sujanix.cruxmdm.data.model.Application.Companion.toApplicationEntity
-import com.sujanix.cruxmdm.data.model.request.OrganizationData
-import com.sujanix.cruxmdm.data.repository.CruxRepository
-import com.sujanix.cruxmdm.util.Constant
-import com.sujanix.cruxmdm.util.InstallUtils
-import com.sujanix.cruxmdm.util.Resource
+import com.sujanix.cruxmdm.feature.app_catalog.data.model.Application.Companion.toApplication
+import com.sujanix.cruxmdm.feature.app_catalog.data.model.Application.Companion.toApplicationEntity
+import com.sujanix.cruxmdm.feature.app_catalog.data.repository.AppCatalogRepository
+import com.sujanix.cruxmdm.feature.common.data.model.OrganizationData
+import com.sujanix.cruxmdm.feature.common.data.repository.CruxRepository
+import com.sujanix.cruxmdm.feature.common.utlis.Constant
+import com.sujanix.cruxmdm.feature.app_catalog.utlis.InstallUtils
+import com.sujanix.cruxmdm.feature.common.utlis.Resource
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
 @HiltWorker
 class ScheduledAppUpdateWorker @AssistedInject constructor(
-    private val repository: CruxRepository,
+    private val repository: AppCatalogRepository,
     @Assisted
     private val context: Context,
     @Assisted

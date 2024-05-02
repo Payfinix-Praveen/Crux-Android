@@ -7,7 +7,7 @@ import android.util.Log
 import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofenceStatusCodes
 import com.google.android.gms.location.GeofencingEvent
-import com.sujanix.cruxmdm.notification.NotificationHelper
+import com.sujanix.cruxmdm.feature.common.utlis.NotificationHelper
 
 class GeofenceReceiver : BroadcastReceiver() {
 

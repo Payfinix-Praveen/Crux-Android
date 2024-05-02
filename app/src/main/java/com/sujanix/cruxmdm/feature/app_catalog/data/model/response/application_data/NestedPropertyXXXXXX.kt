@@ -1,0 +1,10 @@
+package com.sujanix.cruxmdm.feature.app_catalog.data.model.response.application_data
+
+data class NestedPropertyXXXXXX(
+    val defaultValue: String,
+    val description: String,
+    val entries: List<Entry>,
+    val key: String,
+    val title: String,
+    val type: String
+)
