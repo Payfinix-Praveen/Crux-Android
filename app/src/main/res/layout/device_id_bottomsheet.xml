@@ -10,7 +10,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:paddingTop="16dp"
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="24dp">
 
         <ImageView
             android:id="@+id/ivCrux"
@@ -51,13 +53,14 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSave"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/dialog_enter_device_id_save"
+            android:layout_marginTop="16dp"
             android:fontFamily="@font/roboto"
-            app:layout_constraintTop_toBottomOf="@id/tilDeviceId"
+            android:text="@string/dialog_enter_device_id_save"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="16dp"/>
+            app:layout_constraintTop_toBottomOf="@id/tilDeviceId" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

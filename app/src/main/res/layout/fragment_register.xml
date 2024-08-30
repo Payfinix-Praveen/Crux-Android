@@ -148,7 +148,7 @@
                 android:layout_marginBottom="24dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etMrId"
+                    android:id="@+id/etName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="10dp"
@@ -160,21 +160,20 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/stMrName"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/tilMailId"
+                app:endIconMode="none"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etMrName"
+                    android:id="@+id/etEmailId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="10dp"
-                    android:hint="Email"
-                    android:inputType="textPersonName"
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress"
                     android:maxLines="1"
                     tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck" />
 
@@ -216,6 +215,43 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilAadhar"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etAadhar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="10dp"
+                    android:hint="@string/aadhar_no"
+                    android:inputType="phone"
+                    android:maxLength="12"
+                    android:maxLines="1"
+                    tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck,TouchTargetSizeCheck,TouchTargetSizeCheck,TouchTargetSizeCheck" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/enterpriseDropDownLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp">
+
+            <AutoCompleteTextView
+                android:id="@+id/enterpriseDropDown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:fontFamily="@font/roboto"
+                android:hint="@string/select_enterprise"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/stOtp"
@@ -251,7 +287,7 @@
                     android:layout_gravity="center"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="11dp"
-                    android:text="register"
+                    android:text="@string/register"
                     android:textSize="16sp"
                     app:cornerRadius="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -279,6 +315,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginTop="20dp"
+                android:visibility="invisible"
                 android:orientation="horizontal">
 
                 <TextView
@@ -288,7 +325,7 @@
                     android:layout_gravity="end"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:text="Already User? "
+                    android:text="@string/already_user"
                     android:textSize="14sp" />
 
                 <TextView
@@ -298,8 +335,8 @@
                     android:layout_gravity="end"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:text="Login"
-                    android:textColor="#DA422D"
+                    android:text="@string/login"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="14sp" />
             </LinearLayout>
 
@@ -311,11 +348,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="24dp"
-        android:text="app_version"
+        android:text="@string/app_version"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

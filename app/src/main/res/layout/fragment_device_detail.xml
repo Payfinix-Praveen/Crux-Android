@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".feature.device_detail.presentation.view.DeviceDetailFragment">
+    tools:context=".features.device_detail.presentation.view.DeviceDetailFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -23,9 +23,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
+            app:menu="@menu/device_details_top_app_bar"
             app:title="@string/device_details"
             app:navigationIcon="@drawable/ic_arrow_left"/>
-
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -35,7 +35,7 @@
         android:id="@+id/rvDeviceDetail"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:padding="16dp"
+        android:background="@color/white"
         app:layout_constraintTop_toBottomOf="@id/appBarLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

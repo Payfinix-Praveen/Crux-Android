@@ -157,6 +157,30 @@
                 app:layout_constraintStart_toStartOf="@+id/tvStorageTitle"
                 app:layout_constraintTop_toBottomOf="@+id/tvStorageTitle" />
 
+            <TextView
+                android:id="@+id/tvSerialNoTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:text="Serial No"
+                android:textSize="16sp"
+                android:visibility="gone"
+                android:textColor="#000000"
+                android:fontFamily="@font/roboto_medium"
+                app:layout_constraintEnd_toEndOf="@+id/tvNetwork"
+                app:layout_constraintTop_toTopOf="@+id/tvStorageTitle" />
+
+            <TextView
+                android:id="@+id/tvSerialNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:visibility="gone"
+                android:fontFamily="@font/roboto"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@+id/tvSerialNoTitle"
+                app:layout_constraintTop_toBottomOf="@+id/tvSerialNoTitle" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,24 @@
+package com.sujanix.cruxmdm.features.profile.data.repository
+
+import android.content.Context
+import com.sujanix.cruxmdm.features.app_catalog.data.data_source.local.ApplicationDao
+import com.sujanix.cruxmdm.features.core.data.data_source.local.dao.LocationDataDao
+import com.sujanix.cruxmdm.features.core.data.data_source.remote.CruxApi
+import com.sujanix.cruxmdm.features.core.data.data_source.remote.LocationApi
+import com.sujanix.cruxmdm.features.core.data.repository.CruxRepository
+import com.sujanix.cruxmdm.features.core.utlis.UserPreferences
+import com.sujanix.cruxmdm.features.core.utlis.battery.BatteryDataHelper
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
+
+class ProfileRepository@Inject constructor(
+    @ApplicationContext private val context: Context,
+    private val api: CruxApi,
+    private val locationApi: LocationApi,
+    private val appDao: ApplicationDao,
+    private val locationDao: LocationDataDao,
+    private val userPreference: UserPreferences,
+    private val batteryDataHelper: BatteryDataHelper
+): CruxRepository(context, api, locationApi, appDao, locationDao, userPreference, batteryDataHelper) {
+
+}

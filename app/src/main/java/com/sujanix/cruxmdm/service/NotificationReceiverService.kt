@@ -7,6 +7,7 @@ import com.google.android.managementapi.notification.NotificationReceiverService
 import com.sujanix.cruxmdm.commands.CommandUtils
 import com.sujanix.cruxmdm.commands.InMemoryCommandRepository
 
+
 class NotificationReceiverService : NotificationReceiverService() {
 
     override fun getCommandListener(): CommandListener {

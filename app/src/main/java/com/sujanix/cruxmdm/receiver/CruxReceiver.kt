@@ -7,9 +7,11 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.sujanix.cruxmdm.service.LocationService
-import com.sujanix.cruxmdm.feature.common.utlis.Constant
+import com.sujanix.cruxmdm.features.core.utlis.Constant
 
 class CruxReceiver : BroadcastReceiver() {
+
+    private val TAG:String = "CruxReceiver"
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onReceive(context: Context, intent: Intent) {
@@ -17,10 +19,6 @@ class CruxReceiver : BroadcastReceiver() {
         if(intent != null) {
             val socketResponse = intent.getStringExtra(Constant.SOCKET_MESSAGE)
             Log.d("FATAL", "onReceive: $socketResponse")
-            Intent(context, LocationService::class.java).apply {
-                action = Constant.LOCATION_TRACKING
-                context.startService(this)
-            }
 //            when(socketResponse?.type){
 //                Constant.LOCATION_TRACKING -> {
 //                    Intent(Constant.LOCATION_TRACKING).apply {

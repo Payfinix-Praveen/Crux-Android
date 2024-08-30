@@ -6,8 +6,15 @@ import android.content.Context
 import android.content.Intent
 import android.os.PersistableBundle
 import android.util.Log
+import android.widget.Toast
+import com.sujanix.cruxmdm.features.core.utlis.UserPreferences
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class CruxDeviceAdminReceiver: DeviceAdminReceiver() {
+
+    private lateinit var userPreferences: UserPreferences
 
     override fun onEnabled(context: Context, intent: Intent) {
         super.onEnabled(context, intent)
@@ -19,9 +26,22 @@ class CruxDeviceAdminReceiver: DeviceAdminReceiver() {
     override fun onProfileProvisioningComplete(context: Context, intent: Intent) {
         super.onProfileProvisioningComplete(context, intent)
 
-        val bundle = intent.getParcelableExtra<PersistableBundle>(DevicePolicyManager.EXTRA_PROVISIONING_ADMIN_EXTRAS_BUNDLE)
-        if(bundle != null){
-            Log.d("FATAL", "onProfileProvisioningComplete: $bundle")
+        try {
+            val bundle =
+                intent.getParcelableExtra<PersistableBundle>(DevicePolicyManager.EXTRA_PROVISIONING_ADMIN_EXTRAS_BUNDLE)
+            if (bundle != null) {
+                Log.d("FATAL", "onProfileProvisioningComplete: $bundle")
+
+                Toast.makeText(context, "Provisioning Complete", Toast.LENGTH_SHORT).show()
+
+            }
+
+            CoroutineScope(Dispatchers.IO).launch {
+                userPreferences = UserPreferences(context)
+                userPreferences.setDeviceEnrolled()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 

@@ -65,6 +65,12 @@
                 android:title="@string/term_of_use"
                 android:checkable="true"
                 app:showAsAction="ifRoom"/>
+            <item
+                android:id="@+id/logout"
+                android:icon="@drawable/ic_file"
+                android:title="@string/logout"
+                android:checkable="true"
+                app:showAsAction="ifRoom"/>
         </menu>
     </item>
 </menu>

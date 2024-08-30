@@ -19,17 +19,24 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
 import com.sujanix.cruxmdm.R
-import com.sujanix.cruxmdm.feature.common.data.model.socket.location.Location
-import com.sujanix.cruxmdm.feature.common.data.model.socket.location.LocationTrackingDetails
-import com.sujanix.cruxmdm.feature.common.data.repository.CruxRepository
-import com.sujanix.cruxmdm.feature.common.utlis.NotificationHelper
-import com.sujanix.cruxmdm.feature.common.utlis.Constant
-import com.sujanix.cruxmdm.feature.common.utlis.Constant.LOCATION_TRACKING
-import com.sujanix.cruxmdm.feature.common.utlis.UserPreferences
-import com.sujanix.cruxmdm.feature.common.utlis.location.LocationUtils
+import com.sujanix.cruxmdm.features.auth.data.model.response.DeviceUserData
+import com.sujanix.cruxmdm.features.core.data.data_source.local.entity.LocationEntity
+import com.sujanix.cruxmdm.features.core.data.model.fencing.Coordinates
+import com.sujanix.cruxmdm.features.core.data.model.fencing.fence_log.CurrentLocation
+import com.sujanix.cruxmdm.features.core.data.model.fencing.fence_log.FenceLog
+import com.sujanix.cruxmdm.features.core.data.model.location_history.UemSetting
+import com.sujanix.cruxmdm.features.core.data.model.socket.location.Coordinate
+import com.sujanix.cruxmdm.features.core.data.repository.CruxRepository
+import com.sujanix.cruxmdm.features.core.utlis.NotificationHelper
+import com.sujanix.cruxmdm.features.core.utlis.Constant
+import com.sujanix.cruxmdm.features.core.utlis.Constant.LOCATION_TRACKING
+import com.sujanix.cruxmdm.features.core.utlis.Constant.PREFERENCE_NAME
+import com.sujanix.cruxmdm.features.core.utlis.UserPreferences
+import com.sujanix.cruxmdm.features.core.utlis.location.LocationUtils
+import com.sujanix.cruxmdm.socket.model.LiveTrackingData
+import com.sujanix.cruxmdm.socket.model.TrackingData
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -41,8 +48,14 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class LocationService : Service() {
+    private var currentLocationName: String = ""
+    private var priority: Int = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
+    private var uemSettings: UemSetting? = null
+    private var breadcrumbSettings: Boolean? = null
+    private var previousLocationName: String = ""
+    private val TAG: String = "LocationService"
     private var locationManager: LocationManager? = null
-    var updateViaGps = false
+    private var updateViaGps = false
     var started = false
 
     @Inject
@@ -50,13 +63,14 @@ class LocationService : Service() {
 
     @Inject
     lateinit var repository: CruxRepository
+    private var isSocketConnected: Boolean = false
     var count = 0
     var isInsideBoundary = false
 
     override fun onCreate() {
         super.onCreate()
         locationManager = this.getSystemService(LOCATION_SERVICE) as LocationManager
-        repository.startSession()
+
     }
 
     private fun startAsForeground() {
@@ -80,6 +94,7 @@ class LocationService : Service() {
             .setContentText("Your location is monitoring")
             .setSmallIcon(R.drawable.logo)
             .build()
+//
         startForeground(NOTIFICATION_ID, notification)
     }
 
@@ -97,7 +112,7 @@ class LocationService : Service() {
             PackageManager.PERMISSION_GRANTED
         ) {
             // No permission, so give up!
-            Log.d("WEBSOCKET", "requestLocationUpdates: no permission")
+            Log.d(TAG, "requestLocationUpdates: no permission")
             return false
         }
         val gpsEnabled = locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)
@@ -105,18 +120,31 @@ class LocationService : Service() {
         val passiveEnabled = locationManager!!.isProviderEnabled(LocationManager.PASSIVE_PROVIDER)
 
         if (!gpsEnabled && !networkEnabled) {
-            Log.d("WEBSOCKET", "requestLocationUpdates: no internet")
+            Log.d(TAG, "requestLocationUpdates: no internet")
             return false
         }
 
         try {
+            val preferences = getSharedPreferences(PREFERENCE_NAME, MODE_PRIVATE)
+            val locationTrackingEnabled = preferences.getBoolean(LOCATION_TRACKING, false)
+            Log.d(TAG, "locationTrackingEnabled: $locationTrackingEnabled")
 
-            val locationRequest = LocationRequest.create().apply {
-                interval = Constant.LOCATION_INTERVAL
-                fastestInterval = Constant.LOCATION_FASTEST_INTERVAL
-                priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-                setSmallestDisplacement(10f)
+            priority = if(locationTrackingEnabled){
+                LocationRequest.PRIORITY_HIGH_ACCURACY
+            } else {
+                LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
             }
+
+            CoroutineScope(Dispatchers.IO).launch {
+                uemSettings = repository.getUemSettings().first()
+            }
+//            val miniDisplacement = uemSettings?.range?.toFloat() ?: 50F
+            val miniDisplacement = if(locationTrackingEnabled) 5f else 50f
+            val locationRequest = LocationRequest
+                .Builder(priority, Constant.LOCATION_INTERVAL)
+                .setMinUpdateIntervalMillis(Constant.LOCATION_FASTEST_INTERVAL)     // TODO: Update interval in milliseconds from the server
+                .setMinUpdateDistanceMeters(miniDisplacement)
+                .build()
 
             val locationCallback = object : LocationCallback() {
                 override fun onLocationResult(result: LocationResult) {
@@ -125,75 +153,63 @@ class LocationService : Service() {
                     val lastLatitude = result.locations.last().latitude
                     val lastLongitude = result.locations.last().longitude
 
-                    getLocationName(26.5645, 85.9914)
-
-                    val currentLocation = LatLng(lastLongitude, lastLatitude)
-                    val fence = listOf(
-                        LatLng(77.64347588986351,
-                            12.959851922985962),
-                        LatLng(77.64611596845509,
-                            12.959674486488922),
-                        LatLng(77.64561526389474,
-                            12.958033192890625),
-                        LatLng(77.64247448074298,
-                            12.958402854554734),
-                        LatLng(77.64218619629958,
-                            12.960251154644183),
-                        LatLng(77.64347588986351,
-                            12.959851922985962)
-                    )
-                    val isInside = LocationUtils.isPointInsidePolygon(currentLocation, fence)
-
-                    Log.d("CustomFence", "locationListener: $isInside, ${result.locations.last().speedAccuracyMetersPerSecond}, " +
-                            "${result.locations.last().bearing}")
-//                    Log.d("CustomFence", "locationListener: ${location.longitude} ${location.latitude}")
-                    // Check if the location has crossed the boundary
-                    if (isInside != isInsideBoundary) {
-                        if (isInside) {
-                            // Entered the marked area
-//                            handleEnterBoundary()
-                            Log.d("CustomFence", "onLocationResult: Entered the premises")
-                        } else {
-                            // Exited the marked area
-//                            handleExitBoundary()
-                            Log.d("CustomFence", "onLocationResult: Exited the premises")
-                        }
-                        isInsideBoundary = isInside
-                    }
+                    currentLocationName = getLocationName(lastLatitude,lastLongitude)
 
                     CoroutineScope(Dispatchers.IO).launch {
-                        val organizationData = userPreferences.accessOrganizationData.first()
 
-                        val deviceId = userPreferences.accessDeviceId.first() ?: "3424472b6e69fe9f"
+//                        val deviceId = "3f37439c1c19643e"
+                        val speed = result.locations.last().speedAccuracyMetersPerSecond
+                        val bearing = result.locations.last().bearing
+                        val direction = LocationUtils.getDirectionFromBearing(bearing)
 
-                        val locationDetail = userPreferences.accessLocationTrackingData.first()
-
-                        if (organizationData != null && locationDetail != null) {
-                            val location = LocationTrackingDetails(
-                                organizationData.org_id,
-                                organizationData.enterprise_id,
-                                deviceId,
-                                location = Location(
+                        userPreferences.accessDeviceUserData.collect { deviceUserData ->
+                            val deviceId = userPreferences.accessDeviceId.first() ?: "3f37439c1c19643e"
+                            checkFenceStatus(lastLatitude, lastLongitude, deviceId, deviceUserData)
+                            Log.d(TAG, "deviceUserData: $deviceUserData")
+                            if (deviceUserData != null) {
+                                Log.d(TAG, "onLocationResult: called1")
+//                                val locationDetail = userPreferences.accessLocationTrackingData.last()
+                                saveLocation(
+                                    Constant.LOCATION_HISTORY,
+                                    currentLocationName,
                                     lastLatitude,
                                     lastLongitude
-                                ),
-                                timeStamp = System.currentTimeMillis(),
-                                locationDetail.history_enabled
-                            )
-                            if (locationDetail.enabled)
-                                repository.sendMessageToSocket(LOCATION_TRACKING, Gson().toJson(location))
-                        } else {
-                            Log.d("WEBSOCKET", "onLocationResultSERVIEC: no org data present")
-                            repository.startSession()
+                                )
+                                checkSettingAndSaveBreadcrumb(currentLocationName, lastLatitude, lastLongitude)
+
+                                if (locationTrackingEnabled) {
+
+                                    /** LIVE LOCATION TRACKING DATA */
+                                    val trackingData = TrackingData(
+                                        device_id = deviceId,
+                                        direction = direction,
+                                        enterprise_id = deviceUserData.enterprise_id,
+                                        geo_coding = currentLocationName,
+                                        latitude = lastLatitude.toString(),
+                                        longitude = lastLongitude.toString(),
+                                        speed = speed.toString(),
+                                        timestamp = System.currentTimeMillis().toString(),
+                                    )
+
+                                    repository.sendMessageToSocket(
+                                        message = Gson().toJson(
+                                            LiveTrackingData(
+                                                action = "onMessage",
+                                                message = trackingData
+                                            )
+                                        ).toString()
+                                    )
+                                }
+                            }
                         }
                     }
 
-                    NotificationHelper.showNotification(
-                        this@LocationService,
-                        "Location monitoring...",
-                        "Location \nLat: $lastLatitude Lon: $lastLongitude",
-                        101
-                    )
+//                    NotificationHelper.showNotification(
+//                        this@LocationService,
+//                        "Location monitoring...",
+//                        "Location \nLat: $lastLatitude Lon: $lastLongitude",
+//                        101
+//                    )
                 }
             }
 
@@ -205,15 +221,108 @@ class LocationService : Service() {
             )
         } catch (e: Exception) {
             // Provider may not exist, so process it friendly
-            Log.d("FATAL", "requestLocationUpdates: ${e.message}")
+            Log.d(TAG, "requestLocationUpdates: ${e.message}")
             e.printStackTrace()
             return false
         }
         return true
     }
 
-    private fun getLocationName(latitude: Double, longitude: Double) {
-        try {
+    private suspend fun checkSettingAndSaveBreadcrumb(
+        currentLocationName: String,
+        lastLatitude: Double,
+        lastLongitude: Double
+    ) {
+        val breadcrumbSettings = repository.getBreadcrumbSettings().first()
+        if (breadcrumbSettings == true && previousLocationName != currentLocationName) {
+            saveLocation(
+                Constant.LOCATION_BREADCRUMBS,
+                currentLocationName,
+                lastLatitude,
+                lastLongitude
+            )
+            previousLocationName = currentLocationName
+        }
+    }
+
+    private suspend fun checkFenceStatus(
+        lastLatitude: Double,
+        lastLongitude: Double,
+        deviceId: String,
+        deviceUserData: DeviceUserData?
+    ) {
+        val fenceLogs = FenceLog(
+            currentLocation = CurrentLocation(lastLongitude, lastLongitude, currentLocationName),
+            deviceId = deviceId,
+            email = deviceUserData?.email ?: "",
+//            email = "abcdefghijklmnopqrstuvwxyz@gmail.com",
+            enterpriseId = deviceUserData?.enterprise_id ?: "",
+            fenceId = -1
+        )
+        val fenceData = repository.getAllFenceData()
+        if (fenceData.isNotEmpty()) {
+
+            for (fence in fenceData) {
+//                if (fence.fenceType == "MultiPolygon") {
+                    when (fence.coordinates) {
+                        is Coordinates.Polygon -> {
+                            val isInside =
+                                LocationUtils.isPointInPolygon(
+                                    fence.coordinates.coordinates,
+                                    lastLatitude,
+                                    lastLongitude
+                                )
+                            if (isInside != isInsideBoundary) {
+                                if (isInside) {
+                                    Log.d(TAG, "CUSTOMFENCE: Entered the premises")
+                                    val fenceLog = fenceLogs.copy(
+                                        alerts = listOf(),
+                                        fenceId = fence.fenceId.toInt(),
+                                        insideFence = true
+                                    )
+                                    repository.logFence(fenceLog)
+                                    isInsideBoundary = true
+                                    break
+                                } else {
+                                    Log.d(TAG, "CUSTOMFENCE: Exited the premises")
+                                }
+                                isInsideBoundary = isInside
+                            }
+                        }
+                        else -> {}
+                    }
+//                }
+            }
+            if (!isInsideBoundary) {
+                Log.d(TAG, "checkFenceStatus: Outside fences")
+                val fenceLog = fenceLogs.copy(
+                    fenceId = -1,
+                    insideFence = false
+                )
+                repository.logFence(fenceLog)
+            }
+        }
+    }
+
+    private suspend fun saveLocation(
+        type: String,
+        locationName: String,
+        latitude: Double,
+        longitude: Double
+    ) {
+        repository.insertLocationData(
+            LocationEntity(
+                type = type,
+                geoCoding = LocationUtils.extractAreaFromLocation(locationName),
+                lat = latitude.toString(),
+                lon = longitude.toString(),
+                timestamp = System.currentTimeMillis().toString()
+            )
+        )
+    }
+
+    private fun getLocationName(latitude: Double, longitude: Double): String {
+        return try {
             val geocoder = Geocoder(this@LocationService, Locale.getDefault())
             val addressList = geocoder.getFromLocation(latitude, longitude, 2)
 
@@ -224,14 +333,15 @@ class LocationService : Service() {
                     "Location: ${addressList.last().getAddressLine(0)}",
                     102
                 )
-//                Log.d("FATAL", "getLocationName: ${addressList.last().getAddressLine(0)}}")
-                Log.d("FATAL", "getLocationName: ${addressList.first().getAddressLine(0)}")
-            }
+                
+                Log.d(TAG, "getLocationName: ${addressList.first().getAddressLine(0)}")
+                addressList.first().getAddressLine(0).toString()
+            } else ""
         } catch (e: Exception){
             e.printStackTrace()
-            Log.d("FATAL", "getLocationName: ${e.message}")
+            Log.d(TAG, "getLocationName: ${e.message}")
+            ""
         }
-
     }
 
     override fun onDestroy() {
@@ -247,6 +357,9 @@ class LocationService : Service() {
 //        Log.d("WEBSOCKET", "onStartCommand: $count triggered")
         val legacyGpsFlag = updateViaGps
         if (inputIntent.action != null) {
+            if(inputIntent.action == ACTION_START_LIVE_TRACKING){
+                repository.startSession()
+            }
             if (inputIntent.action == ACTION_STOP) {
                 // Stop service
                 started = false
@@ -273,7 +386,7 @@ class LocationService : Service() {
         }
 
         if(inputIntent.action == LOCATION_TRACKING)
-            Log.d("WEBSOCKET", "onStartCommand: $count triggered")
+            Log.d(TAG, "onStartCommand: $count triggered")
 
         CoroutineScope(Dispatchers.IO).launch {
             repository.sendBatteryDataPeriodically()
@@ -283,6 +396,7 @@ class LocationService : Service() {
     }
 
     companion object {
+        val ACTION_START_LIVE_TRACKING: String = "start_live_tracking"
         private const val NOTIFICATION_ID = 112
         var CHANNEL_ID = LocationService::class.java.name
         const val ACTION_UPDATE_GPS = "gps"

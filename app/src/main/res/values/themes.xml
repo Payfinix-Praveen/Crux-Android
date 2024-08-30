@@ -70,8 +70,8 @@
     </style>
 
     <style name="ThemeOverlay.App.Switch" parent="">
-        <item name="colorPrimary">#0A802C</item>
-        <item name="colorSurface">#519765</item>
+        <item name="colorPrimary">@color/red</item>
+        <item name="colorSurface">@color/red_transparent</item>
     </style>
 
     <style name="BottomSheetDialogTheme" parent="Theme.Design.BottomSheetDialog">

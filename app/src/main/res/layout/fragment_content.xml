@@ -1,6 +1,201 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/topAppBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/topAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/Enterprise_content"
+        android:minHeight="?attr/actionBarSize" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topAppBarLayout"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="24dp"
+            android:background="@color/white">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cvAvailableSpace"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginTop="24dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="4dp"
+                android:backgroundTint="@color/colorSurface"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="24dp">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cvFolder"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="0dp"
+                        app:strokeWidth="0dp"
+                        android:padding="16dp"
+                        app:strokeColor="@color/zxing_transparent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent">
+
+                        <ImageView
+                            android:id="@+id/ivFolderIcon"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            tools:srcCompat="@tools:sample/avatars"
+                            android:src="@drawable/ic_folder"
+                            android:contentDescription="app image" />
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_available_space"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:textSize="20sp"
+                        android:text="Available Space"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto"
+                        android:layout_marginStart="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/cvFolder"
+                        app:layout_constraintTop_toTopOf="@+id/cvFolder" />
+
+                    <com.google.android.material.progressindicator.LinearProgressIndicator
+                        android:id="@+id/pb_space_available"
+                        android:layout_width="0dp"
+                        android:layout_height="4dp"
+                        android:layout_marginTop="8dp"
+                        app:trackColor="@color/colorSecondary"
+                        app:indicatorColor="@color/colorOnSurfaceVariant"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/tv_available_space"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_available_space" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_space_available"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="12 MB"
+                        android:maxLines="1"
+                        android:fontFamily="@font/roboto_light"
+                        android:textSize="14sp"
+                        android:layout_marginTop="4dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/tv_available_space"
+                        app:layout_constraintTop_toBottomOf="@id/pb_space_available" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/tv_folders"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/roboto"
+                android:gravity="start"
+                android:text="@string/folders"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cvAvailableSpace" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvFolderSeeAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_light"
+                android:gravity="end"
+                android:text="@string/see_all"
+                app:layout_constraintTop_toTopOf="@id/tv_folders"
+                app:layout_constraintBottom_toBottomOf="@id/tv_folders"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textColor="@color/colorOnSurfaceVariant"
+                android:textSize="14sp"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_content"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_folders"
+                tools:itemCount="1"
+                tools:listitem="@layout/item_folder_layout" />
+
+            <TextView
+                android:id="@+id/tv_recent_files"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/roboto"
+                android:gravity="start"
+                android:text="@string/recent_files"
+                android:textColor="@color/material_dynamic_neutral_variant50"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rv_content" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvRecentFilesSeeAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_light"
+                android:gravity="end"
+                android:text="@string/see_all"
+                app:layout_constraintTop_toTopOf="@id/tv_recent_files"
+                app:layout_constraintBottom_toBottomOf="@id/tv_recent_files"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textColor="@color/colorOnSurfaceVariant"
+                android:textSize="14sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_recent_files"
+                android:layout_width="match_parent"
+                android:layout_height="420dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_recent_files"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:listitem="@layout/item_content_layout" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

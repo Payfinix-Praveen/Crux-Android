@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "253604029591",
+    "project_id": "cruxmdm",
+    "storage_bucket": "cruxmdm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:253604029591:android:7e32ec8c0c1dddc16e75d2",
+        "android_client_info": {
+          "package_name": "com.sujanix.cruxmdm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDE0GAxsnv-fKGrdB19Lg5Cau9o4ojpVdE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

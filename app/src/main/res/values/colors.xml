@@ -69,4 +69,10 @@
     <color name="md_theme_dark_surfaceTint">#93CCFF</color>
     <color name="md_theme_dark_outlineVariant">#42474E</color>
     <color name="md_theme_dark_scrim">#000000</color>
+
+    <color name="red">#FA0202</color>
+    <color name="red_transparent">#99FA0202</color>
+
+    <color name="green">#02BD39</color>
+    <color name="green_transparent">#9902BD39</color>
 </resources>

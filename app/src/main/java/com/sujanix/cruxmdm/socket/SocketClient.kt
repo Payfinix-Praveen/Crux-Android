@@ -1,10 +1,19 @@
 package com.sujanix.cruxmdm.socket
 
-import io.socket.client.Socket
+import okhttp3.WebSocketListener
+import java.net.Socket
 import javax.inject.Singleton
 
 @Singleton
 interface SocketClient {
+
+    fun connect(message: Any)
+
+    fun disconnect()
+
+    fun sendMessage(message: String)
+
+    fun setListener(listener: WebSocketListener)
 
     fun startSession()
 
@@ -14,9 +23,9 @@ interface SocketClient {
 
     fun isSocketConnected(): Boolean
 
-    fun sendMessageToSocket(event: String, message: Any)
+    fun sendMessageToSocket(message: Any)
 
-    fun receiveMessageFromSocket()
+    fun receiveMessageFromSocket(message: String)
 
     fun closeConnection()
 }

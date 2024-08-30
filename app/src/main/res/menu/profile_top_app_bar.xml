@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/more"
-        android:title="Notification"
-        android:icon="@drawable/ic_notification"
+        android:id="@+id/add_device_user"
+        android:title="Add Device User"
+        android:icon="@drawable/ic_profile"
         android:contentDescription="this is a notification menu item"
         app:showAsAction="never" />
 </menu>

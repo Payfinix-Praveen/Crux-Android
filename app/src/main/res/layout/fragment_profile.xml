@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".feature.profile.presentation.view.ProfileFragment">
+    tools:context=".features.profile.presentation.view.ProfileFragment">
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navView"

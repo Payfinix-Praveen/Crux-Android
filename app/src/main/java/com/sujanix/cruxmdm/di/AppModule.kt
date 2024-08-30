@@ -3,10 +3,13 @@ package com.sujanix.cruxmdm.di
 import android.content.Context
 import androidx.room.Room
 import com.google.gson.GsonBuilder
-import com.sujanix.cruxmdm.feature.app_catalog.data.data_source.local.ApplicationDao
-import com.sujanix.cruxmdm.feature.common.data.data_source.local.CruxDao
-import com.sujanix.cruxmdm.feature.common.data.data_source.local.CruxDatabase
-import com.sujanix.cruxmdm.feature.common.data.data_source.remote.CruxApi
+import com.sujanix.cruxmdm.features.app_catalog.data.data_source.local.ApplicationDao
+import com.sujanix.cruxmdm.features.content_management.data.data_source.local.ContentManagementDao
+import com.sujanix.cruxmdm.features.core.data.data_source.local.dao.CruxDao
+import com.sujanix.cruxmdm.features.core.data.data_source.local.CruxDatabase
+import com.sujanix.cruxmdm.features.core.data.data_source.local.dao.LocationDataDao
+import com.sujanix.cruxmdm.features.core.data.data_source.remote.CruxApi
+import com.sujanix.cruxmdm.features.core.data.data_source.remote.LocationApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -50,6 +53,32 @@ object AppModule {
             .create()
     }
 
+    @Provides
+    @Singleton
+    fun providesLocationApi(): LocationApi {
+        return Retrofit.Builder()
+            .baseUrl(LocationApi.LOCATION_BASE_URL)
+            .client(
+                OkHttpClient.Builder().also { client ->
+                    val logging = HttpLoggingInterceptor()
+                        .setLevel(HttpLoggingInterceptor.Level.BODY)
+                    client.addInterceptor(logging)
+                    client.connectTimeout(3, TimeUnit.MINUTES)
+                    client.writeTimeout(3, TimeUnit.MINUTES)
+                    client.readTimeout(3, TimeUnit.MINUTES)
+                }.build()
+            )
+            .addConverterFactory(
+                GsonConverterFactory.create(
+                    GsonBuilder()
+                        .setDateFormat("yyyy-MM-dd HH:mm:ss")
+                        .create()
+                )
+            )
+            .build()
+            .create()
+    }
+
     @Singleton
     @Provides
     fun providesCruxDatabase(
@@ -59,7 +88,7 @@ object AppModule {
             appContext.applicationContext,
             CruxDatabase::class.java,
             CruxDatabase.DATABASE_NAME
-        ).build()
+        ).fallbackToDestructiveMigration().build()
     }
 
     @Provides
@@ -76,5 +105,21 @@ object AppModule {
         db: CruxDatabase
     ): ApplicationDao {
         return db.applicationDao
+    }
+
+    @Provides
+    @Singleton
+    fun providesLocationDataDao(
+        db: CruxDatabase
+    ): LocationDataDao {
+        return db.locationDao
+    }
+
+    @Provides
+    @Singleton
+    fun providesContentManagementDao(
+        db: CruxDatabase
+    ): ContentManagementDao {
+        return db.contentManagementDao
     }
 }

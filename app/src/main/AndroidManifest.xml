@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission
@@ -12,35 +14,42 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="32"
-        tools:ignore="ScopedStorage"/>
-
-    <uses-permission android:name="android.permission.GET_TASKS"/>
-    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"
-        tools:ignore="ProtectedPermissions"/>
-    <uses-permission android:name="android.permission.INJECT_EVENTS"
-        tools:ignore="ProtectedPermissions"/>
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
-    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES"/>
-    <uses-permission android:name="android.permission.INSTALL_PACKAGES"
+        tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.BLUETOOTH" android:required="false"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" android:required="false"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" android:required="false"/>
+    <uses-permission
+        android:name="android.permission.INJECT_EVENTS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
+    <uses-permission
+        android:name="android.permission.INSTALL_PACKAGES"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH"
+        android:required="false" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_ADMIN"
+        android:required="false" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_CONNECT"
+        android:required="false" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-    <uses-permission android:name="com.mediatek.permission.CTA_ENABLE_WIFI"/>
-    <uses-permission android:name="com.mediatek.permission.CTA_ENABLE_BT"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="com.mediatek.permission.CTA_ENABLE_WIFI" />
+    <uses-permission android:name="com.mediatek.permission.CTA_ENABLE_BT" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
-<!--    <uses-permission android:name="android.permission.MANAGE_DEVICES" />-->
-
-    <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" /> <!-- <uses-permission android:name="android.permission.MANAGE_DEVICES" /> -->
+    <uses-permission android:name="android.permission.DEVICE_ADMIN" />
 
     <queries>
         <package android:name="com.google.android.apps.work.clouddpc" />
@@ -58,10 +67,18 @@
         android:theme="@style/Theme.CruxAndroid"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".features.enrollment.presentation.RegisterDeviceUserActivity"
+            android:exported="false" />
+
         <receiver
             android:name=".receiver.CruxReceiver"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.sujanix.cruxmdm.SETTING_ACTION" />
+            </intent-filter>
+        </receiver>
 
         <service
             android:name=".service.LocationService"
@@ -76,32 +93,33 @@
             android:exported="true" />
 
         <activity
-            android:name=".feature.enrollment.presentation.view.EnrollActivity"
+            android:name=".features.enrollment.presentation.view.EnrollActivity"
             android:exported="false">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.app.action.PROVISIONING_SUCCESSFUL"/>-->
-<!--                <action android:name="android.app.action.GET_PROVISIONING_MODE"/>-->
-<!--                <action android:name="android.app.action.ADMIN_POLICY_COMPLIANCE"/>-->
-<!--            </intent-filter>-->
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.app.action.PROVISIONING_SUCCESSFUL"/> -->
+            <!-- <action android:name="android.app.action.GET_PROVISIONING_MODE"/> -->
+            <!-- <action android:name="android.app.action.ADMIN_POLICY_COMPLIANCE"/> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="fullSensor"
             tools:replace="screenOrientation" />
         <activity
-            android:name=".feature.auth.presentation.view.AuthActivity"
+            android:name=".features.auth.presentation.view.AuthActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".feature.common.presentation.view.MainActivity"
+            android:name=".features.core.presentation.view.MainActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.app.action.PROVISIONING_SUCCESSFUL"/>
-                <action android:name="android.app.action.GET_PROVISIONING_MODE"/>
-                <action android:name="android.app.action.ADMIN_POLICY_COMPLIANCE"/>
+                <action android:name="android.app.action.PROVISIONING_SUCCESSFUL" />
+                <action android:name="android.app.action.GET_PROVISIONING_MODE" />
+                <action android:name="android.app.action.ADMIN_POLICY_COMPLIANCE" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -118,7 +136,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
@@ -141,10 +158,23 @@
 
         <service
             android:name=".service.NotificationReceiverService"
-            android:exported="true" />
+            android:exported="false" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <service
+            android:name=".service.CruxFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+
+            <meta-data
+                android:name="com.google.firebase.messaging.default_notification_channel_id"
+                android:value="@string/default_notification_channel_id" />
+        </service>
     </application>
 
 </manifest>

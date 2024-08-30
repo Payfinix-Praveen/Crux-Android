@@ -125,7 +125,7 @@
 
     <string name="version_name">version: 1.0.0</string>
     <string name="recent_activity">Recent Activities</string>
-    <string name="app_catalog">App Catalog</string>
+    <string name="app_catalog">App Store</string>
     <string name="detail_icon">detail icon</string>
     <string name="search_apps">Search Apps</string>
     <string name="all_apps">All Apps</string>
@@ -135,6 +135,37 @@
     <string name="system_default">System Default</string>
     <string name="dark">Dark</string>
     <string name="light">Light</string>
+    <string name="select_enterprise">Select Enterprise</string>
+    <string name="aadhar_no">Aadhar No.</string>
+    <string name="app_version">version: %s</string>
+    <string name="login">Login</string>
+    <string name="already_user">Already User?</string>
+    <string name="register">Register</string>
+    <string name="scan_qr_code">Scan QR Code</string>
+    <string name="generate_qr_code">Generate QR Code</string>
+    <string name="select_group">Select Group</string>
+    <string name="default_notification_channel_id">Default</string>
+    <string name="signin_with_google">SignIn with Google</string>
+    <string name="signin_with_facebook">SignIn with Facebook</string>
+    <string name="signin_with">SignIn with</string>
+    <string name="email">Email</string>
+    <string name="verified">Verified</string>
+    <string name="files_count">%1$s files</string>
+    <string name="content_size">%1$s %2$s</string>
+    <string name="Enterprise_content">Enterprise Content</string>
+    <string name="see_all">See all</string>
+    <string name="recent_files">Recent files</string>
+    <string name="folders">Folders</string>
+    <string name="used_storage">%1$s GB of %2$s GB used</string>
+    <string name="files">Files</string>
+    <string name="logout">Logout</string>
+    <string name="add_new_device_user">Register Device User</string>
+    <string name="file_provider_authority">com.sujanix.cruxmdm.fileprovider</string>
+    <string name="request_app_desc">request for new app for IT Admin</string>
+    <string name="play_store_url_hint">Link</string>
+    <string name="request_app_dialog_title">Request App</string>
+    <string name="request_app_dialog_description">Note: Please enter the Play Store Link of the app you want to request.</string>
+    <string name="request_button_text">Request</string>
 
 
     <string-array name="certificates" translatable="false">

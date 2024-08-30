@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.sujanix.cruxmdm.feature.common.presentation.view.fragment.HomeFragment"
+        android:name="com.sujanix.cruxmdm.features.core.presentation.view.fragment.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -22,22 +22,27 @@
     </fragment>
     <fragment
         android:id="@+id/appStoreFragment"
-        android:name="com.sujanix.cruxmdm.feature.app_catalog.presentation.view.fragment.AppStoreFragment"
+        android:name="com.sujanix.cruxmdm.features.app_catalog.presentation.view.fragment.AppStoreFragment"
         android:label="AppStoreFragment"
         tools:layout="@layout/fragment_app_store"/>
     <fragment
         android:id="@+id/contentFragment"
-        android:name="com.sujanix.cruxmdm.feature.content_management.presentation.view.ContentFragment"
+        android:name="com.sujanix.cruxmdm.features.content_management.presentation.view.ContentFragment"
         android:label="ContentFragment"
-        tools:layout="@layout/fragment_content"/>
+        tools:layout="@layout/fragment_content">
+        <action
+            android:id="@+id/action_contentFragment_to_fileFragment"
+            app:destination="@id/fileFragment"
+            app:enterAnim="@android:anim/fade_in"/>
+    </fragment>
     <fragment
         android:id="@+id/notificationActivityFragment"
-        android:name="com.sujanix.cruxmdm.feature.notification_policyActivity.presentation.view.NotificationActivityFragment"
+        android:name="com.sujanix.cruxmdm.features.notification_policyActivity.presentation.view.NotificationActivityFragment"
         android:label="ContentFragment"
         tools:layout="@layout/fragment_notification_activity"/>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.sujanix.cruxmdm.feature.profile.presentation.view.ProfileFragment"
+        android:name="com.sujanix.cruxmdm.features.profile.presentation.view.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
         <action
@@ -55,7 +60,15 @@
     </fragment>
     <fragment
         android:id="@+id/deviceDetailFragment"
-        android:name="com.sujanix.cruxmdm.feature.device_detail.presentation.view.DeviceDetailFragment"
+        android:name="com.sujanix.cruxmdm.features.device_detail.presentation.view.DeviceDetailFragment"
         android:label="fragment_device_detail"
         tools:layout="@layout/fragment_device_detail" />
+    <fragment
+        android:id="@+id/fileFragment"
+        android:name="com.sujanix.cruxmdm.features.content_management.presentation.view.FileFragment"
+        android:label="FileFragment" >
+        <argument
+            android:name="folderData"
+            app:argType="com.sujanix.cruxmdm.features.content_management.data.model.response.shared_file.Data" />
+    </fragment>
 </navigation>
